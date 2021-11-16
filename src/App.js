@@ -2,6 +2,9 @@ import './css/App.css';
 import Login from './js/Login';
 import Dashboard from './js/Dashboard';
 import React, { useState } from "react";
+import Signup from './js/Signup'
+import Home from './js/Home'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -28,7 +31,7 @@ function App() {
       <hr />
 
       <Switch>
-        <Route exact path="/" component={() => <Login authenticated={authenticated}/>}>
+        <Route exact path="/" component={() => <Home authenticated={authenticated}/>}>
         </Route>
         <Route path="/dashboard" component={() => <Dashboard authenticated={authenticated}/>}>
         </Route>
