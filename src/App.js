@@ -1,15 +1,18 @@
 import './css/App.css';
 import Login from './js/Login';
 import Dashboard from './js/Dashboard';
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory
 } from "react-router-dom";
 
 function App() {
+  const [authenticated, setAuthenticated] = useState(true)
+
   return (
     <Router>
     <div>
@@ -28,11 +31,11 @@ function App() {
       <hr />
 
       <Switch>
-        <Route exact path="/" component={Login}>
+        <Route exact path="/" component={() => <Login authenticated={authenticated}/>}>
         </Route>
         <Route path="/about" component={About}>
         </Route>
-        <Route path="/dashboard" component={Dashboard}>
+        <Route path="/dashboard" component={() => <Dashboard authenticated={authenticated}/>}>
         </Route>
       </Switch>
     </div>

@@ -1,6 +1,18 @@
 import logo from '../logo.svg';
+import { useHistory } from 'react-router';
+
+
 
 function Login(){
+
+  let history = useHistory()
+  console.log(history)
+    function onSignin() {
+      history.push("/dashboard")
+    }
+
+
+
     return (
     <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
@@ -73,6 +85,7 @@ function Login(){
 
             <div>
               <button
+              onClick={onSignin}
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
