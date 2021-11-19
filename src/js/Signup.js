@@ -1,17 +1,41 @@
 import logo from '../logo.svg';
 import { useHistory } from 'react-router';
+import { useRef } from 'react';
 
 
 
 function Signup(){
 
   let history = useHistory()
-  console.log(history)
-    function onSignin() {
-      history.push("/dashboard")
+  const emailInput = useRef("")
+  const passwordInput = useRef("")
+  const confirmInput = useRef("")
+  
+
+    async function registerUser(){
+
+      let body = {
+        "email": emailInput.current.value,
+        "password": passwordInput.current.value,
+        "password_confirmation": confirmInput.current.value
+      }
+    
+      let url = "http://206.189.91.54/api/v1/auth/"
+    
+      const user = await fetch(url,
+       {method: "POST",
+       headers: {
+         'Content-Type': 'application/json'
+       }, 
+        body: JSON.stringify(body)})
+      let userData = await user.json()
+      console.log(userData)
     }
 
-
+    function onSignin() {
+      history.push("/dashboard")
+      registerUser()
+    }
 
     return (
     <div className="min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 absolute right-0 w-1/2">
@@ -32,6 +56,7 @@ function Signup(){
                   Email address
                 </label>
                 <input
+                  ref={emailInput}
                   id="email-address"
                   name="email"
                   type="email"
@@ -46,6 +71,7 @@ function Signup(){
                   Password
                 </label>
                 <input
+                  ref={passwordInput}
                   id="password"
                   name="password"
                   type="password"
@@ -60,6 +86,7 @@ function Signup(){
                   Confirm Password
                 </label>
                 <input
+                  ref={confirmInput}
                   id="password"
                   name="password"
                   type="password"

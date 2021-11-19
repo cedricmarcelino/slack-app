@@ -1,14 +1,53 @@
 import logo from '../logo.svg';
 import { useHistory } from 'react-router';
+import { useRef } from 'react';
 
 
 
 function Login(){
 
+  const emailInput = useRef("")
+  const passwordInput = useRef("")
+
   let history = useHistory()
-  console.log(history)
-    function onLogin() {
+
+
+async function logInUser(){
+
+  let body = {
+    "email": emailInput.current.value,
+    "password": passwordInput.current.value
+  }
+  let url = "http://206.189.91.54/api/v1/auth/sign_in/"
+  let headersList =  ["access-token", "client", "expiry", "uid"]
+
+  const user = await fetch(url,
+   {method: "POST",
+   headers: {
+     'Content-Type': 'application/json',
+     "Access-Control-Expose-Headers": "*"
+   }, 
+   mode:"cors",
+    body: JSON.stringify(body)})
+  let userData = await user.json()
+  let headers = await user.headers
+  let head = Array.from(headers.entries()).reduce((headers,pair) => {
+    if(headersList.includes(pair[0])){
+      return {
+        ...headers,
+        [pair[0]]: pair[1]
+      }
+    } else {
+      return headers
+    }
+  },{})
+
+  console.log({userData, head})
+}
+
+  function onLogin() {
       history.push("/dashboard")
+      logInUser()
     }
 
 
@@ -33,6 +72,7 @@ function Login(){
                   Email address
                 </label>
                 <input
+                  ref={emailInput}
                   id="email-address"
                   name="email"
                   type="email"
@@ -47,6 +87,7 @@ function Login(){
                   Password
                 </label>
                 <input
+                  ref={passwordInput}
                   id="password"
                   name="password"
                   type="password"
