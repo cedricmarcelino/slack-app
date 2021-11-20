@@ -1,13 +1,45 @@
 import './css/App.css';
 import Login from './js/Login';
+import Dashboard from './js/Dashboard';
+import React, { useState } from "react";
+import Signup from './js/Signup'
+import Home from './js/Home'
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory
+} from "react-router-dom";
 
 function App() {
-  return (
+  const [authenticated, setAuthenticated] = useState(true)
 
-    <div className="App">
-      <Login/>
+  return (
+    <Router>
+    <div>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
+      </ul>
+
+      <hr />
+
+      <Switch>
+        <Route exact path="/" component={() => <Home authenticated={authenticated}/>}>
+        </Route>
+        <Route path="/dashboard" component={() => <Dashboard authenticated={authenticated}/>}>
+        </Route>
+      </Switch>
     </div>
+  </Router>
   );
 }
+
 
 export default App;
