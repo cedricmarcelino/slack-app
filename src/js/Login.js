@@ -1,21 +1,16 @@
-import logo from '../logo.svg';
 import {useHistory } from 'react-router';
-import { useRef, useState } from 'react';
 
 
 function Login(props){
-  const {currentUser, setCurrentUser} = props
-  const emailInput = useRef("")
-  const passwordInput = useRef("")
-  const [logInReminder, setLogInReminder] = useState("")
-
+  const {currentUser, setCurrentUser, emailLogInInput, passwordLogInput, logInReminder, setLogInReminder} = props
   let history = useHistory()
 
 
-  async function logInUser(){
+  async function logInUser(event){
+    event.preventDefault()
     let body = {
-      "email": emailInput.current.value,
-      "password": passwordInput.current.value
+      "email": emailLogInInput.current.value,
+      "password": passwordLogInput.current.value
     }
     let url = "http://206.189.91.54/api/v1/auth/sign_in/"
     let headersList =  ["access-token", "client", "expiry", "uid"]
@@ -47,14 +42,10 @@ function Login(props){
       })
       history.push("/dashboard")
     } else {
-      setLogInReminder(`${userData.errors[0]}`)
+      setLogInReminder(userData.errors[0])
     }
   }
 
-  const onLogin = (event) => {
-    event.preventDefault()
-    logInUser()
-    }
 
   return (
   <div className="min-h-full absolute items-center justify-center py-12 px-4 sm:px-6 lg:px-8 left-0 w-1/2">
@@ -76,7 +67,7 @@ function Login(props){
                 Email address
               </label>
               <input
-                ref={emailInput}
+                ref={emailLogInInput}
                 id="email-address"
                 name="email"
                 type="email"
@@ -91,7 +82,7 @@ function Login(props){
                 Password
               </label>
               <input
-                ref={passwordInput}
+                ref={passwordLogInput}
                 id="password"
                 name="password"
                 type="password"
@@ -125,7 +116,7 @@ function Login(props){
 
           <div>
             <button
-            onClick={onLogin}
+            onClick={logInUser}
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
