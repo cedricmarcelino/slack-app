@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import Login from './Login';
 import Signup from './Signup';
 
 
 
-function Home(){
+function Home(props){
+  const {currentUser, setCurrentUser} = props
+
   let signupClasses = "translate-x-0 "
   let loginClasses = "-translate-x-96 "
 
@@ -32,7 +34,7 @@ function Home(){
     }
   }
 
-
+  if(Object.keys(currentUser).length === 0){
     return (
     <div className = "border-8 absolute h-100 w-100">
       <div className= {`h-44 w-50 border-8 absolute right-0 z-10 bg-gray-400 text-center h-full transform transition-all delay-200 ease-in-out duration-700 ${transitionClass}`} >
@@ -47,9 +49,18 @@ function Home(){
         </button>
       </div>
 
-        <Login/>
-        <Signup/>
+        <Login
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        />
+        <Signup
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        />
     </div>
     )
+  } else {
+    return <Redirect to="/dashboard"/>
+  }
 }
 export default Home

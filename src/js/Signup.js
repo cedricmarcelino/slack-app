@@ -4,7 +4,10 @@ import { useRef } from 'react';
 
 
 
-function Signup(){
+function Signup(props){
+  const {currentUser, setCurrentUser} = props
+
+
 
   let history = useHistory()
   const emailInput = useRef("")
