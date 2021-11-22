@@ -14,14 +14,16 @@ import {
 
 function App() {
   
+
+  //gets "currentUser" data stored in local storage if there is any and saves it to currentUser state
   const localStorageCurrentUser = localStorage.getItem("currentUser")
   let currentUserData = {}
   if(localStorageCurrentUser) {
     currentUserData = JSON.parse(localStorageCurrentUser)
   }
-  
   const [currentUser, setCurrentUser] = useState(currentUserData)
 
+  //saves changes to localstorage.currentUser whenever there are change to currentUser state
   useEffect(()=>{
     localStorage.setItem("currentUser",JSON.stringify(currentUser))
   },[currentUser])

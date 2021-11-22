@@ -16,7 +16,7 @@ function Home(props){
   const confirmSignUpInput = useRef("")
 
 
-  
+  //Set up for information to be displayed in the moving panel
   let signupState = {
     state: "signup",
     buttonText: "Log In",
@@ -32,6 +32,7 @@ function Home(props){
   const [homeState, setHomeState] = useState(loginState)
 
 
+  //Transition function for when the user wants to shift from logging in to signing up, and vice-versa
   function onTransition() {
     emailLogInInput.current.value = ""
     passwordLogInput.current.value = ""

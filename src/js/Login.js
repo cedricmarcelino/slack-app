@@ -8,6 +8,7 @@ function Login(props){
 
   async function logInUser(event){
     event.preventDefault()
+    //gets information for api call from values of inputs (email, password)
     let body = {
       "email": emailLogInInput.current.value,
       "password": passwordLogInput.current.value
@@ -15,6 +16,7 @@ function Login(props){
     let url = "http://206.189.91.54/api/v1/auth/sign_in/"
     let headersList =  ["access-token", "client", "expiry", "uid"]
 
+    //fetches api using information from body and stores response in "userData"
     const user = await fetch(url,
     {method: "POST",
     headers: {
@@ -24,6 +26,7 @@ function Login(props){
       body: JSON.stringify(body)})
     let userData = await user.json()
 
+    // runs only if sign up was successful (determined using response status)
     if(user.status >= 200 && user.status<=299 ){
       let headers = await user.headers
       let head = Array.from(headers.entries()).reduce((headers,pair) => {
@@ -36,12 +39,16 @@ function Login(props){
           return headers
         }
       },{})
+
+      //updates currentUser data and stores both the user data and login response headers
       setCurrentUser({
         ...userData, 
         "headers" : head
       })
+      //redirects the page to dashboard
       history.push("/dashboard")
     } else {
+      //if api call is unsuccessful, the error is displayed
       setLogInReminder(userData.errors[0])
     }
   }
@@ -56,6 +63,10 @@ function Login(props){
             src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
             alt="Workflow"
           />
+
+
+
+          
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Log in to your account</h2>
         </div>
         <div><h2>{logInReminder}</h2></div>

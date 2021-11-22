@@ -4,15 +4,18 @@ function Signup(props){
   const {currentUser, setCurrentUser, emailSignUpInput, passwordSignUpInput, confirmSignUpInput, signUpReminder, setSignUpReminder, setHomeState, emailLogInInput, passwordLogInput, setLogInReminder } = props
 
 
-
+  //RegisterUser function for when the sign up button is clicked
   async function registerUser(event){
     event.preventDefault()
+    //gets information for api call from values of inputs (email, password, confirmpassword)
     let body = {
       "email": emailSignUpInput.current.value,
       "password": passwordSignUpInput.current.value,
       "password_confirmation": confirmSignUpInput.current.value
     }
     let url = "http://206.189.91.54/api/v1/auth/"
+
+    //fetches api using information from body and stores response in "userData"
     const user = await fetch(url,
       {method: "POST",
       headers: {
@@ -20,7 +23,8 @@ function Signup(props){
       }, 
       body: JSON.stringify(body)})
     let userData = await user.json()
-
+    
+    // runs only if sign up was successful (determined using response status)
     if(user.status >= 200 && user.status<=299 ){
       emailLogInInput.current.value = emailSignUpInput.current.value
       passwordLogInput.current.value = passwordSignUpInput.current.value
@@ -32,9 +36,11 @@ function Signup(props){
         captionText: "Don't have an Account?",
         transitionClass: "translate-x-0 "
       }
+      //switches pane to login if signup was successful and adds reminder
       setHomeState(loginState)
       setLogInReminder("Sign up was successful. You may now log in.")
     } else {
+      //if api call is unsuccessful, the error is displayed
       setSignUpReminder(userData.errors.full_messages[0])
     }
   }
