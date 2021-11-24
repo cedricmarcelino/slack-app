@@ -5,6 +5,7 @@ function Sidebar(props) {
     const [addButtonVisible, setAddButtonVisible] = useState(false)
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
     const [listOfChannels, setListOfChannels] = useState([])
+    const [noChannels,setNoChannels] = useState(false)
         
     userHeaders[`Content-Type`] =  "application/json"
 
@@ -32,10 +33,18 @@ function Sidebar(props) {
                 mode:"cors"})
             .then(response=>response.json())
             .then(userChannels=>{
-                userChannels = userChannels.data.map(data => 
-                    data.name
+                if(userChannels.data!==undefined){
+                    userChannels = userChannels.data.map(data => 
+                        data.name
+                    )
+                    setListOfChannels(userChannels)
+                    setNoChannels(false)
+                } else (
+                    setNoChannels(true)
                 )
-                setListOfChannels(userChannels)
+            })
+            .catch((error) => {
+                console.log(error)
             })
         }
     }
@@ -44,24 +53,30 @@ function Sidebar(props) {
         <div className="bg-purple-900 text-white w-1/4">
             {addButtonVisible===false &&
             <>
-                <span className="cursor-pointer flex item-stretch mx-4" onMouseEnter={showAddButton}>Channels</span>
+                
+                <span className="cursor-pointer flex item-stretch mx-4" onMouseEnter={showAddButton}>Channels{usersChannelVisible===false ? <span>▴</span> : <span>▾</span>}</span>
             </>
             }
 
             {addButtonVisible &&
             <>
                 <div className="cursor-pointer flex justify-between mx-4" onMouseLeave={hideAddButton}> 
-                    <span onClick={showUsersChannel}>Channels</span>
+                    <span onClick={showUsersChannel}>Channels{usersChannelVisible===false ? <span>▴</span> : <span>▾</span>}</span>
                     <span onClick={showAddChannel}>+</span>
                 </div>
             </>
             }
             
-            {(usersChannelVisible)&& 
+            {(usersChannelVisible && noChannels===false)&& 
                 <ul className="mx-10">
                     {listOfChannels.map((channel,id) => <li key={id}>{channel}</li>)}
                 </ul>
-            
+            }
+
+            {(usersChannelVisible && noChannels===true)&& 
+                <ul className="mx-10">
+                    <li>No Available Channels</li>
+                </ul>
             }
             <span className="cursor-pointer mx-4">Direct Messages</span> 
         </div>
