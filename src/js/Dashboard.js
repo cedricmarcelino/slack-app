@@ -1,23 +1,26 @@
-import { useRef } from "react"
+import Header from "./dashboard-components/Header"
+import Sidebar from "./dashboard-components/Sidebar"
 import { useHistory, Redirect } from "react-router"
+import Maincontent from "./dashboard-components/Maincontent"
+import {useState} from "react"
 
 function Dashboard (props) {
     const {currentUser, setCurrentUser} = props
-    let history = useHistory()
-    
-    function onLogout(){
-        history.push("/")
-        setCurrentUser({})
-    }
+    const [activePage, setActivePage] = useState("")
+    const userInfo = JSON.parse(localStorage.getItem('currentUser'))
+    const userHeaders = userInfo.headers
 
     if(Object.keys(currentUser).length === 0) {
         return <Redirect to="/"/>
     } else {
         return (
-            <div> 
-                <h1>User Logged in: {currentUser.data.email}</h1>
-                <button onClick={onLogout}>Logout</button>
-            </div>
+            <>
+                <Header currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                <div className="flex">
+                    <Sidebar userHeaders={userHeaders} setActivePage={setActivePage}/>
+                    <Maincontent activePage={activePage}/>
+                </div>
+            </>
         )
     }
 
