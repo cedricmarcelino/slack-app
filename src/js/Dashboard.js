@@ -9,6 +9,7 @@ function Dashboard (props) {
     const [activePage, setActivePage] = useState("")
     const userInfo = JSON.parse(localStorage.getItem('currentUser'))
     const userHeaders = userInfo.headers
+    const userId = userInfo.data.id
 
     if(Object.keys(currentUser).length === 0) {
         return <Redirect to="/"/>
@@ -18,7 +19,7 @@ function Dashboard (props) {
                 <Header currentUser={currentUser} setCurrentUser={setCurrentUser}/>
                 <div className="flex">
                     <Sidebar userHeaders={userHeaders} setActivePage={setActivePage}/>
-                    <Maincontent activePage={activePage}/>
+                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId}/>
                 </div>
             </>
         )

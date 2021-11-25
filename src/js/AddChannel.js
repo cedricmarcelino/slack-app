@@ -1,7 +1,54 @@
-function AddChannel() {
+import { data } from 'autoprefixer'
+import {useState} from 'react'
+
+function AddChannel(props) {
+
+    const {userHeaders,userId} = props
+    const [channelName,setChannelName] = useState("")
+
+    userHeaders[`Content-Type`] =  "application/json"
+
+    function handleChange(e) {
+        setChannelName(e.target.value)
+    }
+
+    async function handleClick() {
+
+        const body = {
+            "name": channelName,
+            "user_ids": userId
+        }
+
+        const newChannel = await fetch("http://206.189.91.54/api/v1/channels",
+            {method: "POST",
+            headers: userHeaders, 
+            mode: "cors",
+            body: JSON.stringify(body)})
+            .then(response=>response.json())
+            .then(data=>{
+                if(data.errors!==undefined){
+                    console.log(data.errors)
+                } else {
+                    setChannelName("")
+                    console.log("Channel created!")
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     return (
-        <div>
-            I WILL ADD YOUR CHANNELS
+        <div className="text-center py-5">
+            <h1 className="font-semibold text-3xl my-2">Create a new channel</h1>
+            <fieldset>
+                <label className="my-2">Channel name: </label>
+                <input className="my-2" type="text" onChange={handleChange} value={channelName}></input>
+            </fieldset>
+            <button onClick={handleClick} className="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 border border-purple-900 rounded my-2">
+                Create Channel
+            </button>
+            
         </div>
     )
 }
