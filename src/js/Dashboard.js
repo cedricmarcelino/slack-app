@@ -23,7 +23,7 @@ function Dashboard (props) {
                 <Header currentUser={currentUser} setCurrentUser={setCurrentUser}/>
                 <div className="flex flex-grow">
                     <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setChannelID={setChannelID} setListOfMessages={setListOfMessages}/>
-                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} channelID={channelID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages}/>
+                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} channelID={channelID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage}/>
                 </div>
             </div>
         )

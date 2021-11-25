@@ -79,7 +79,6 @@ function Sidebar(props) {
 
     async function showChannel(e){
         setActivePage("Channel")
-        setListOfMessages([])
         const targetChannel = e.target.innerHTML
         setChannelName(targetChannel)
         setChannelID(objectChannel[targetChannel])
