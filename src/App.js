@@ -1,15 +1,12 @@
 import './css/App.css';
-import Login from './js/Login';
 import Dashboard from './js/Dashboard';
 import React, { useState, useEffect } from "react";
-import Signup from './js/Signup'
 import Home from './js/Home'
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 function App() {
@@ -32,14 +29,14 @@ function App() {
   return (
     <Router>
     <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-      </ul>
+        {/* <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+        </ul> */}
 
       <hr />
 
