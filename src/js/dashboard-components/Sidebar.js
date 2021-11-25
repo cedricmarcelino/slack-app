@@ -21,6 +21,20 @@ function Sidebar(props) {
         setActivePage("AddChannel")
     }
 
+    async function showChannel(){
+        setActivePage("Channel")
+        // let response = await fetch("http://206.189.91.54/api/v1/channels/3?id=1855",
+        //         {method: "GET",
+        //         headers: userHeaders, 
+        //         mode:"cors"})
+        //     .then(response=>response.json())
+        //     .then(userChannels=>{ console.log(userChannels)
+        //     })
+        //     .catch((error) => {
+        //         console.log(error)
+        //     })
+    }
+
     async function showUsersChannel(){
 
         if(usersChannelVisible){    
@@ -69,7 +83,7 @@ function Sidebar(props) {
             
             {(usersChannelVisible && noChannels===false)&& 
                 <ul className="mx-10">
-                    {listOfChannels.map((channel,id) => <li key={id}>{channel}</li>)}
+                    {listOfChannels.map((channel,id) => <li key={id} className="cursor-pointer" onClick={showChannel}>{channel}</li>)}
                 </ul>
             }
 
