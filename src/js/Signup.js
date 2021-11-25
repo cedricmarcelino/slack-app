@@ -1,7 +1,7 @@
 
 
 function Signup(props){
-  const {currentUser, setCurrentUser, emailSignUpInput, passwordSignUpInput, confirmSignUpInput, signUpReminder, setSignUpReminder, setHomeState, emailLogInInput, passwordLogInput, setLogInReminder } = props
+  const {emailSignUpInput, passwordSignUpInput, confirmSignUpInput, signUpReminder, setSignUpReminder, setHomeState, emailLogInInput, passwordLogInput, setLogInReminder } = props
 
 
   //RegisterUser function for when the sign up button is clicked

@@ -1,13 +1,12 @@
-import { data } from 'autoprefixer'
 import {useState} from 'react'
 
 function AddChannel(props) {
 
-    const {userHeaders,userId} = props
+    const {userHeaders,userId,setValue,value} = props
     const [channelName,setChannelName] = useState("")
 
     userHeaders[`Content-Type`] =  "application/json"
-
+    
     function handleChange(e) {
         setChannelName(e.target.value)
     }
@@ -16,10 +15,10 @@ function AddChannel(props) {
 
         const body = {
             "name": channelName,
-            "user_ids": userId
+            "user_ids": [userId]
         }
 
-        const newChannel = await fetch("http://206.189.91.54/api/v1/channels",
+        await fetch("http://206.189.91.54/api/v1/channels",
             {method: "POST",
             headers: userHeaders, 
             mode: "cors",
@@ -31,6 +30,7 @@ function AddChannel(props) {
                 } else {
                     setChannelName("")
                     console.log("Channel created!")
+                    setValue(value+1)
                 }
             })
             .catch((error) => {
