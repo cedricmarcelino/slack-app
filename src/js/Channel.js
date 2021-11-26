@@ -6,6 +6,7 @@ function Channel(props) {
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
+    const [counter, setCounter] = useState(0)
     
 
     function handleClick(){
@@ -58,6 +59,7 @@ function Channel(props) {
                     console.log(message)
                 })
                 setListOfMessages(tempListOfMessages)
+
             } else {
                 console.log("NO MESSAGES")
             }
@@ -73,6 +75,17 @@ function Channel(props) {
         console.log("I RAN")
     },[channelName,value])
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCounter(counter + 1)
+            retrieveMessages()
+        }, 5000);
+        return () => {
+          clearInterval(interval);
+        };
+      }, [counter]);
+
+
     return (
         <div className="h-full flex flex-col justify-between">
             <div className="border-solid border-purple-300 border-2 bg-white p-3 flex justify-between">
@@ -80,7 +93,7 @@ function Channel(props) {
                 <span className="font-bold text-xl cursor-pointer" onClick={handleClick}>+ Add Member</span>
             </div>
 
-            <div className=" p-4">
+            <div className="p-4 h-full">
                 {loading ? 
                 <div className="text-center my-10"> Fetching Messages </div>
                 : 
