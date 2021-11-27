@@ -43,8 +43,6 @@ function Channel(props) {
     }
 
     async function retrieveMessages(){
-        setListOfMessages([])
-        setLoading(true)
         await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`,
         {method: "GET",
         headers: userHeaders, 
@@ -71,6 +69,8 @@ function Channel(props) {
     }
 
     useEffect( ()=>{
+        setListOfMessages([])
+        setLoading(true)
         retrieveMessages()
         console.log("I RAN")
     },[channelName,value])
