@@ -14,6 +14,7 @@ function Dashboard (props) {
     const [channelName,setChannelName] = useState("")
     const [channelID,setChannelID] = useState()
     const [listOfMessages,setListOfMessages] = useState([])
+    const [counter, setCounter] = useState(0)
 
     if(Object.keys(currentUser).length === 0) {
         return <Redirect to="/"/>
@@ -22,8 +23,8 @@ function Dashboard (props) {
             <div className="flex flex-col h-screen">
                 <Header currentUser={currentUser} setCurrentUser={setCurrentUser}/>
                 <div className="flex flex-grow">
-                    <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setChannelID={setChannelID} setListOfMessages={setListOfMessages}/>
-                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} channelID={channelID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage}/>
+                    <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setChannelID={setChannelID} setListOfMessages={setListOfMessages} counter={counter} setCounter={setCounter}/>
+                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} channelID={channelID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter={counter} setCounter={setCounter}/>
                 </div>
             </div>
         )

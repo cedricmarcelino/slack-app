@@ -2,11 +2,10 @@ import {useEffect,useState} from 'react'
 
 function Channel(props) {
 
-    const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage} = props
+    const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage, counter, setCounter} = props
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
-    const [counter, setCounter] = useState(0)
     
 
     function handleClick(){
@@ -69,8 +68,9 @@ function Channel(props) {
     }
 
     useEffect( ()=>{
-        setListOfMessages([])
-        setLoading(true)
+        // removed these two lines so it doesnt look buggy when sending a message
+        // setListOfMessages([])
+        // setLoading(true)
         retrieveMessages()
         console.log("I RAN")
     },[channelName,value])
