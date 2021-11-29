@@ -27,19 +27,24 @@ function Sidebar(props) {
                     data.name
                 )
                 setListOfChannels(userChannelsName)
+                console.log(userChannelsName)
                 let userChannelsID = userChannels.data.map(data => 
                     data.id
                 )
                 setListOfChannelID(userChannelsID)
+                console.log(userChannelsID)
                 
                 let i=0
                 let tempObjectChannel = {}
 
-                listOfChannels.forEach(channelName => {
-                    tempObjectChannel[channelName] = listOfChannelID[i]
+                userChannelsName.forEach(channelName => {
+                    tempObjectChannel[channelName] = userChannelsID[i]
                     i++
                 })
+
                 setObjectChannel(tempObjectChannel)
+                console.log(tempObjectChannel)
+
                 setNoChannels(false)
                 setLoading(false)
             } else {
@@ -54,6 +59,7 @@ function Sidebar(props) {
 
     useEffect( ()=>{
         retrieveUserChannels()
+        console.log("I RAN FROM SIDEBAR")
     },[value])
 
     function showUsersChannel(){
