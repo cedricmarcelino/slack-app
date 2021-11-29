@@ -3,7 +3,7 @@ import {useState,useEffect} from 'react'
 
 function Sidebar(props) {
 
-    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages} = props
+    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, counter, setCounter} = props
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
     const [addButtonVisible, setAddButtonVisible] = useState(false)
     const [listOfChannels,setListOfChannels] = useState([])
@@ -62,6 +62,7 @@ function Sidebar(props) {
         console.log("I RAN FROM SIDEBAR")
     },[value])
 
+
     function showUsersChannel(){
         if(usersChannelVisible===false){
             retrieveUserChannels()
@@ -85,9 +86,11 @@ function Sidebar(props) {
 
     async function showChannel(e){
         setActivePage("Channel")
+        setListOfMessages([])
         const targetChannel = e.target.innerHTML
         setChannelName(targetChannel)
         setChannelID(objectChannel[targetChannel])
+        setCounter(counter+1)
     }
 
     return (

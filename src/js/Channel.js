@@ -2,7 +2,7 @@ import {useEffect,useState} from 'react'
 
 function Channel(props) {
 
-    const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage} = props
+    const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage, counter, setCounter} = props
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
@@ -42,8 +42,6 @@ function Channel(props) {
     }
 
     async function retrieveMessages(){
-        setListOfMessages([])
-        setLoading(true)
         await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`,
         {method: "GET",
         headers: userHeaders, 
@@ -58,6 +56,7 @@ function Channel(props) {
                     console.log(message)
                 })
                 setListOfMessages(tempListOfMessages)
+
             } else {
                 console.log("NO MESSAGES")
             }
@@ -69,9 +68,23 @@ function Channel(props) {
     }
 
     useEffect( ()=>{
+        // removed these two lines so it doesnt look buggy when sending a message
+        // setListOfMessages([])
+        // setLoading(true)
         retrieveMessages()
         console.log("I RAN")
     },[channelName,value])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCounter(counter + 1)
+            retrieveMessages()
+        }, 5000);
+        return () => {
+          clearInterval(interval);
+        };
+      }, [counter]);
+
 
     return (
         <div className="h-full flex flex-col justify-between">
@@ -80,7 +93,7 @@ function Channel(props) {
                 <span className="font-bold text-xl cursor-pointer" onClick={handleClick}>+ Add Member</span>
             </div>
 
-            <div className=" p-4">
+            <div className="p-4 h-full">
                 {loading ? 
                 <div className="text-center my-10"> Fetching Messages </div>
                 : 
