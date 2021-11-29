@@ -1,48 +1,50 @@
 import {useState} from 'react'
-import JSONDATA from '../MOCK_DATA.json'
 
 function AddMemberForDM(props) {
 
-    const {userHeaders,userId,setValue,value} = props
-    const [channelName,setChannelName] = useState("")
-    const [searchUser,setSearchUser] = useState("")
-    // const [userEmailsInChannels, setUserEmailsInChannels] = useState([])
+    const {userHeaders,
+    // // userId,setValue,value
+    } = props
+
+    // // const [channelName,setChannelName] = useState("")
+    const [searchUser,setSearchUser] = useState("") 
+    const [searchEmails, setSearchEmails] = useState([]) 
 
     userHeaders[`Content-Type`] =  "application/json"
 
-    let usersInChannels = []
-    let userEmailsInChannels = []
+    let usersInChannels = [] //array where IDs are pushed
+    let userEmailsInChannels = [] //array where user emails are pushed based on user IDs
     
-    function handleChange(e) {
-        setChannelName(e.target.value)
-    }
+    // // function handleChange(e) {
+    // //     setChannelName(e.target.value)
+    // // }
 
-    async function handleClick() {
+    // // async function handleClick() {
 
-        const body = {
-            "name": channelName,
-            "user_ids": [userId]
-        }
+    // //     const body = {
+    // //         "name": channelName,
+    // //         "user_ids": [userId]
+    // //     }
 
-        await fetch("http://206.189.91.54/api/v1/channels",
-            {method: "POST",
-            headers: userHeaders, 
-            mode: "cors",
-            body: JSON.stringify(body)})
-            .then(response=>response.json())
-            .then(data=>{
-                if(data.errors!==undefined){
-                    console.log(data.errors)
-                } else {
-                    setChannelName("")
-                    console.log("Channel created!")
-                    setValue(value+1)
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
+    // //     await fetch("http://206.189.91.54/api/v1/channels",
+    // //         {method: "POST",
+    // //         headers: userHeaders, 
+    // //         mode: "cors",
+    // //         body: JSON.stringify(body)})
+    // //         .then(response=>response.json())
+    // //         .then(data=>{
+    // //             if(data.errors!==undefined){
+    // //                 console.log(data.errors)
+    // //             } else {
+    // //                 setChannelName("")
+    // //                 console.log("Channel created!")
+    // //                 setValue(value+1)
+    // //             }
+    // //         })
+    // //         .catch((error) => {
+    // //             console.log(error)
+    // //         })
+    // // }
 
     async function loadUsersFromChannel(){ // stores all user IDs of all users in user's channels
 
@@ -52,9 +54,7 @@ function AddMemberForDM(props) {
             mode:"cors"})
         .then(response=>response.json())
         .then(userChannels=>{
-
             let userChannelsID = userChannels.data.map(data => data.id)
-
                 userChannelsID.map(channelID => 
                     fetch(`http://206.189.91.54/api/v1/channels/${channelID}`, //fetches the channel details via channel ID then collects all the user IDs
                     {method: "GET",
@@ -81,7 +81,7 @@ function AddMemberForDM(props) {
             allUsers.data.map(item=> usersInChannels.includes(item.id) ? 
             userEmailsInChannels.push(item.email) : null
         )})
-        .then(console.log(userEmailsInChannels))
+        .then(setSearchEmails(userEmailsInChannels))
         .catch(error => console.log(error))
     }
 
@@ -89,7 +89,7 @@ function AddMemberForDM(props) {
     return (
       <div className="text-center py-5">
         <h1 className="font-semibold text-3xl my-2">All direct messages</h1>
-        <fieldset>
+        {/* <fieldset>
           <label className="my-2">Channel name: </label>
           <input
             className="my-2"
@@ -103,7 +103,7 @@ function AddMemberForDM(props) {
           className="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 border border-purple-900 rounded my-2"
         >
           Create Channel
-        </button>
+        </button> */}
 
         {/* search bar */}
 
@@ -114,7 +114,7 @@ function AddMemberForDM(props) {
             onClick={loadAllUsers}
             onMouseEnter={loadUsersFromChannel}
             />
-            {userEmailsInChannels.map((item, index)=> {
+            {searchEmails.map((item, index)=> {
                 console.log(item)
                 if (searchUser === '') {
                     return null
