@@ -30,6 +30,7 @@ function Signup(props){
       passwordLogInput.current.value = passwordSignUpInput.current.value
       emailSignUpInput.current.value = ""
       passwordSignUpInput.current.value = ""
+      confirmSignUpInput.current.value = ""
       let loginState =  {
         state: "login",
         buttonText: "Sign Up",
@@ -42,6 +43,19 @@ function Signup(props){
     } else {
       //if api call is unsuccessful, the error is displayed
       setSignUpReminder(userData.errors.full_messages[0])
+    }
+  }
+  function onSignupEnter(e){
+    if(e.key==="Enter"){
+      e.preventDefault()
+      registerUser(e)
+      // emailLogInInput.current.focus()
+      emailSignUpInput.current.blur()
+      passwordSignUpInput.current.blur()
+      confirmSignUpInput.current.blur()
+      setTimeout(() => {
+        emailLogInInput.current.focus()
+      }, 1000);
     }
   }
 
@@ -65,6 +79,7 @@ function Signup(props){
                 Email address
               </label>
               <input
+                onKeyPress={e=>onSignupEnter(e)}
                 ref={emailSignUpInput}
                 id="email-address"
                 name="email"
@@ -80,6 +95,8 @@ function Signup(props){
                 Password
               </label>
               <input
+                onKeyPress={e=>onSignupEnter(e)}
+                ref={emailSignUpInput}
                 ref={passwordSignUpInput}
                 id="password"
                 name="password"
@@ -95,6 +112,8 @@ function Signup(props){
                 Confirm Password
               </label>
               <input
+                onKeyPress={e=>onSignupEnter(e)}
+                ref={emailSignUpInput}
                 ref={confirmSignUpInput}
                 id="password"
                 name="password"

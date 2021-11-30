@@ -41,6 +41,19 @@ function Channel(props) {
         setMessage("")
     }
 
+    function onKeyHandleSentMessage(e){
+        if (e.key === "Enter"){
+            e.preventDefault()
+            const body={
+                "receiver_id": channelID,
+                "receiver_class": "Channel",
+                "body": message
+            }
+            sendMessage(body)
+            setMessage("")
+        }
+    }
+
     async function retrieveMessages(){
         await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`,
         {method: "GET",
@@ -110,7 +123,7 @@ function Channel(props) {
                 
 
             <div className="p-4">
-                <textarea className="border-solid border-purple-300 border-2 resize-none w-full h-40 p-4" name="message" onChange={handleChange} value={message}></textarea>
+                <textarea className="border-solid border-purple-300 border-2 resize-none w-full h-40 p-4" name="message" onChange={handleChange} onKeyPress={e=>onKeyHandleSentMessage(e)} value={message}></textarea>
                 <button className="bg-purple-700 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onClick={handleSentMessage}>
                     Send Message
                 </button>
