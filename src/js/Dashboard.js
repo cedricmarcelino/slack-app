@@ -13,6 +13,8 @@ function Dashboard (props) {
     const [value,setValue] = useState(0)
     const [channelName,setChannelName] = useState("")
     const [channelID,setChannelID] = useState()
+    const [recipientName, setRecipientName] = useState("") //copy of channelName state for DM
+    const [recipientID, setRecipientID] = useState() //copy of channelID state for DM
     const [listOfMessages,setListOfMessages] = useState([])
     const [counter, setCounter] = useState(0)
 
@@ -23,8 +25,8 @@ function Dashboard (props) {
             <div className="flex flex-col h-screen">
                 <Header currentUser={currentUser} setCurrentUser={setCurrentUser}/>
                 <div className="flex flex-grow">
-                    <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setChannelID={setChannelID} setListOfMessages={setListOfMessages} counter={counter} setCounter={setCounter}/>
-                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} channelID={channelID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter={counter} setCounter={setCounter}/>
+                    <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter}/>
+                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter}/>
                 </div>
             </div>
         )
