@@ -1,17 +1,25 @@
 import { data } from 'autoprefixer'
 import {useState,useEffect} from 'react'
+import DirectMessage from '../DirectMessage'
 
 function Sidebar(props) {
 
-    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, counter, setCounter} = props
+    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID, counter, setCounter} = props
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
+    const [usersDirectMessagesVisible, setUsersDirectMessagesVisible] = useState(false) //renders list of users
     const [addButtonVisible, setAddButtonVisible] = useState(false)
     const [listOfChannels,setListOfChannels] = useState([])
     const [listOfChannelID,setListOfChannelID] = useState([])
     const [objectChannel,setObjectChannel] = useState({})
     const [noChannels,setNoChannels] = useState()
+    const [noUsersInList, setNoUsersInList] = useState(true) //renders 'no users available' on direct messages in sidebar if set to true
     const [loading,setLoading] = useState()
-        
+    const [loading1,setLoading1] = useState() //renders 'fetching data' when data is not yet ready
+    const [searchUser,setSearchUser] = useState("")//filters searchbar
+    const [searchEmails, setSearchEmails] = useState([])//array where searchbar can look for emails
+    let usersInChannels = [] //array where user IDs of all members in user's channels are pushed
+    let userEmailsInChannels = [] //array where user emails are pushed based on user IDs
+
     userHeaders[`Content-Type`] =  "application/json"
 
     async function retrieveUserChannels(){
@@ -57,11 +65,12 @@ function Sidebar(props) {
         })
     }
 
+    // updates list when a channel is added
+
     useEffect( ()=>{
         retrieveUserChannels()
         console.log("I RAN FROM SIDEBAR")
     },[value])
-
 
     function showUsersChannel(){
         if(usersChannelVisible===false){
@@ -80,6 +89,8 @@ function Sidebar(props) {
         setAddButtonVisible(false)
     }
 
+    // shows page where add channel is
+
     function showAddChannel(){
         setActivePage("AddChannel")
     }
@@ -93,11 +104,87 @@ function Sidebar(props) {
         setCounter(counter+1)
     }
 
+    // direct message functions
+
+    async function loadUsersFromChannel(){ // stores user IDs of all users in user's channels in an array
+        setLoading1(true)
+        await fetch("http://206.189.91.54/api/v1/channels", //fetches all channels of user
+            {method: "GET",
+            headers: userHeaders, 
+            mode:"cors"})
+        .then(response=>response.json())
+        .then(userChannels=>{
+            let userChannelsID = userChannels.data.map(data => data.id)
+                userChannelsID.map(channelID => 
+                    fetch(`http://206.189.91.54/api/v1/channels/${channelID}`, //fetches the channel details via channel ID then collects all the user IDs
+                    {method: "GET",
+                    headers: userHeaders,
+                    mode: "cors"})
+                    .then(response=>response.json())
+                    .then(channelDetails => 
+                        channelDetails.data.channel_members.map(member => 
+                            usersInChannels.includes(member.user_id) ? null : usersInChannels.push(member.user_id))) //filters duplicate IDs then stores one of each unique ID in array
+                    )
+        }).then(loadAllUsers())
+        .then(() => {
+            if (userEmailsInChannels !== (undefined||null)) {
+                setLoading1(false)
+                setNoUsersInList(false)
+                console.log(searchEmails)}
+            else {
+                setLoading1(false)
+                setNoUsersInList(true)
+                }
+            })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
+    async function loadAllUsers (){ // fetches all users ID (to be used for cross reference)
+        await fetch("http://206.189.91.54/api/v1/users", 
+        {method: "GET",
+        headers: userHeaders,
+        mode: "cors"})
+        .then(response=>response.json())
+        .then(allUsers=>{
+            allUsers.data.map(item=> usersInChannels.includes(item.id) ? 
+            userEmailsInChannels.push(item.email) : null
+        )})
+        .then(setSearchEmails(userEmailsInChannels))
+    }
+
+        // shows list of user's DMs with other users
+
+        function showUsersDirectMessages(){
+            if(usersDirectMessagesVisible===false){
+                loadUsersFromChannel()
+                setUsersDirectMessagesVisible(true)
+            } else {
+                setUsersDirectMessagesVisible(false)
+            }
+        }
+
+        
+
+        async function OpenDMWindow(e) {
+            const trgtMember = e.target.innerHTML
+            console.log (trgtMember)
+            setRecipientName(trgtMember)
+            setActivePage("DirectMessage")
+
+            await fetch("http://206.189.91.54/api/v1/users", 
+            {method: "GET",
+            headers: userHeaders,
+            mode: "cors"})
+            .then(response=>response.json())
+            .then(allUsers=>{allUsers.data.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)})
+        }
+
     return (
         <div className="bg-purple-900 text-white w-2/12 p-5">
             {addButtonVisible===false &&
             <>
-                
                 <span className="cursor-pointer flex item-stretch mx-4 my-3 font-semibold text-lg" onMouseEnter={showAddButton}>Channels{usersChannelVisible===false ? <span>▴</span> : <span>▾</span>}</span>
             </>
             }
@@ -130,9 +217,44 @@ function Sidebar(props) {
                     <li>No Available Channels</li>
                 </ul>
             }
-            <div className="my-3">
-                <span className="text-lg cursor-pointer mx-4 font-semibold ">Direct Messages</span> 
-            </div>
+
+            {/* direct messages */}
+
+            {
+                <>
+                    <div className="cursor-pointer flex justify-between mx-4 my-3 font-semibold text-lg" > 
+                        <span onClick={showUsersDirectMessages}>Direct Messages{usersDirectMessagesVisible===false ? <span>▴</span> : <span>▾</span>}</span>
+                    </div>
+                </>
+            }
+
+            {(loading1 && usersDirectMessagesVisible) &&
+                <>
+                    <ul className="mx-10">
+                            <li>Fetching Data</li>
+                    </ul>
+                </>
+            }
+            
+            {(usersDirectMessagesVisible && noUsersInList===false && loading1===false)&& 
+                <ul className="mx-10">
+                    <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className="text-black"/>
+                    {searchEmails.map((item, index)=> {
+                        if (searchUser === '') {
+                            return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
+                        }
+                        else if (item.toLowerCase().includes(searchUser.toLowerCase())) {
+                            return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
+                        }
+                    })}
+                </ul>
+            }
+
+            {(usersDirectMessagesVisible && noUsersInList===true && loading1===false)&& 
+                <ul className="mx-10">
+                    <li>No Available Users</li>
+                </ul>
+            }
         </div>
     )
 }
