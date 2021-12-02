@@ -2,15 +2,11 @@ import {useEffect,useState} from 'react'
 //page is being updated/needs to be updated
 function DirectMessage(props) { 
 
-    const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage} = props
+    const {recipientName,recipientID,listOfMessages,userHeaders,setListOfMessages} = props
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
     
-
-    function handleClick(){
-        setActivePage("AddMember")
-    }
     
     function handleChange(e){
         setMessage(e.target.value)
@@ -33,8 +29,8 @@ function DirectMessage(props) {
 
     function handleSentMessage(){
         const body={
-            "receiver_id": channelID,
-            "receiver_class": "Channel",
+            "receiver_id": recipientID, // UserID
+            "receiver_class": "User",
             "body": message
         }
         sendMessage(body)
@@ -44,7 +40,7 @@ function DirectMessage(props) {
     async function retrieveMessages(){
         setListOfMessages([])
         setLoading(true)
-        await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`,
+        await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${recipientID}&receiver_class=User`,
         {method: "GET",
         headers: userHeaders, 
         mode:"cors"})
@@ -65,19 +61,18 @@ function DirectMessage(props) {
         })
         .catch((error) => {
             console.log(error)
-        })
+        }) 
     }
 
     useEffect( ()=>{
         retrieveMessages()
         console.log("I RAN")
-    },[channelName,value])
+    },[recipientName,value])
 
     return (
         <div className="h-full flex flex-col justify-between">
             <div className="border-solid border-purple-300 border-2 bg-white p-3 flex justify-between">
-                <span className="font-bold text-3xl">{channelName} #{channelID}</span>
-                <span className="font-bold text-xl cursor-pointer" onClick={handleClick}>+ Add Member</span>
+                <span className="font-bold text-3xl">{recipientName} #{recipientID}</span>
             </div>
 
             <div className=" p-4">

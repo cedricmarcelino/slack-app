@@ -1,9 +1,10 @@
 import { data } from 'autoprefixer'
 import {useState,useEffect} from 'react'
+import DirectMessage from '../DirectMessage'
 
 function Sidebar(props) {
 
-    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages} = props
+    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID} = props
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
     const [usersDirectMessagesVisible, setUsersDirectMessagesVisible] = useState(false) //renders list of users
     const [addButtonVisible, setAddButtonVisible] = useState(false)
@@ -158,10 +159,20 @@ function Sidebar(props) {
             }
         }
 
+        
+
         async function OpenDMWindow(e) {
             const trgtMember = e.target.innerHTML
             console.log (trgtMember)
-            setActivePage("DirectMessage") // this page still needs to be updated/is still being updated
+            setRecipientName(trgtMember)
+            setActivePage("DirectMessage")
+
+            await fetch("http://206.189.91.54/api/v1/users", 
+            {method: "GET",
+            headers: userHeaders,
+            mode: "cors"})
+            .then(response=>response.json())
+            .then(allUsers=>{allUsers.data.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)})
         }
 
     return (
