@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react'
-
-function DirectMessage(props) {
+//page is being updated/needs to be updated
+function DirectMessage(props) { 
 
     const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage} = props
     const [message,setMessage] = useState("")

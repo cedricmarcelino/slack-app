@@ -5,9 +5,8 @@ function Sidebar(props) {
 
     const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages} = props
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
-    const [usersDirectMessagesVisible, setUsersDirectMessagesVisible] = useState(false) //shows conversation when user in DMs list is clicked
+    const [usersDirectMessagesVisible, setUsersDirectMessagesVisible] = useState(false) //renders list of users
     const [addButtonVisible, setAddButtonVisible] = useState(false)
-    const [addButtonVisible1, setAddButtonVisible1] = useState(false) //add button for Direct Messages
     const [listOfChannels,setListOfChannels] = useState([])
     const [listOfChannelID,setListOfChannelID] = useState([])
     const [objectChannel,setObjectChannel] = useState({})
@@ -15,8 +14,8 @@ function Sidebar(props) {
     const [noUsersInList, setNoUsersInList] = useState(true) //renders 'no users available' on direct messages in sidebar if set to true
     const [loading,setLoading] = useState()
     const [loading1,setLoading1] = useState() //renders 'fetching data' when data is not yet ready
-    const [searchUser,setSearchUser] = useState("")
-    const [searchEmails, setSearchEmails] = useState([])
+    const [searchUser,setSearchUser] = useState("")//filters searchbar
+    const [searchEmails, setSearchEmails] = useState([])//array where searchbar can look for emails
     let usersInChannels = [] //array where user IDs of all members in user's channels are pushed
     let userEmailsInChannels = [] //array where user emails are pushed based on user IDs
 
@@ -91,12 +90,6 @@ function Sidebar(props) {
         setActivePage("AddChannel")
     }
 
-    // shows page where you can search for user to message directly
-
-    function searchforUser(){
-        setActivePage("AddMemberForDM")
-    }
-
     async function showChannel(e){
         setActivePage("Channel")
         const targetChannel = e.target.innerHTML
@@ -165,23 +158,11 @@ function Sidebar(props) {
             }
         }
 
-        // show and hide addbuttons1 used for DM copied above
-
-        function showAddButton1(){
-            setAddButtonVisible1(true)
-        }
-
-        function hideAddButton1(){
-            setAddButtonVisible1(false)
-        }
-
         async function OpenDMWindow(e) {
             const trgtMember = e.target.innerHTML
             console.log (trgtMember)
             setActivePage("DirectMessage") // this page still needs to be updated/is still being updated
         }
-
-    
 
     return (
         <div className="bg-purple-900 text-white w-2/12 p-5">
@@ -222,15 +203,9 @@ function Sidebar(props) {
 
             {/* direct messages */}
 
-            {addButtonVisible1===false &&
+            {
                 <>
-                    <span className="cursor-pointer flex item-stretch mx-4 my-3 font-semibold text-lg" onMouseEnter={showAddButton1}>Direct Messages{usersChannelVisible===false ? <span>▴</span> : <span>▾</span>}</span>
-                </>
-            }
-
-            {addButtonVisible1 &&
-                <>
-                    <div className="cursor-pointer flex justify-between mx-4 my-3 font-semibold text-lg" onMouseLeave={hideAddButton1}> 
+                    <div className="cursor-pointer flex justify-between mx-4 my-3 font-semibold text-lg" > 
                         <span onClick={showUsersDirectMessages}>Direct Messages{usersDirectMessagesVisible===false ? <span>▴</span> : <span>▾</span>}</span>
                     </div>
                 </>
