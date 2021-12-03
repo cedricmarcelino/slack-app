@@ -1,15 +1,5 @@
-import { useHistory } from "react-router"
+function Header({mobileView,setShowMenu,showMenu}) {
 
-function Header({currentUser,setCurrentUser,mobileView,setShowMenu,showMenu}) {
-
-    
-
-    let history = useHistory()
-    
-    function onLogout(){
-        history.push("/")
-        setCurrentUser({})
-    }
 
     function showNav(){
         if(showMenu===false){
@@ -22,9 +12,9 @@ function Header({currentUser,setCurrentUser,mobileView,setShowMenu,showMenu}) {
     
     return (
         
-        <div className="bg-purple-800 text-white font-bold flex justify-evenly p-3">
-            <span>Hello {currentUser.data.email}</span>
-            {mobileView ? <span className="cursor-pointer text-2xl" onClick={showNav}> ☰ </span>: <span onClick={onLogout} className="cursor-pointer">Log out</span>}
+        <div className={`bg-purple-800 text-white font-bold flex ${!mobileView ? "justify-left" : "justify-between" } p-3`}>
+            <span className="text-3xl mx-3">aChat</span>
+            {mobileView && <span className="cursor-pointer text-3xl mx-3" onClick={showNav}> ☰ </span>}
             
         </div>
     

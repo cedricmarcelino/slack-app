@@ -99,8 +99,8 @@ function Channel(props) {
     return (
         <div className="h-full flex flex-col justify-between">
             <div className="border-solid border-purple-300 border-2 bg-white p-3 flex justify-between">
-                <span className="font-bold text-3xl">{channelName} #{channelID}</span>
-                <span className="font-bold text-xl cursor-pointer" onClick={handleClick}>+ Add Member</span>
+                <span className={`font-bold ${mobileView ? "text-xl": "text-3xl"}`}>{channelName} #{channelID}</span>
+                <span className={`font-bold text-center ${mobileView ? "text-base": "text-xl"} cursor-pointer`} onClick={handleClick}>+ Add Member</span>
             </div>
 
             <div className="p-4 h-full">
