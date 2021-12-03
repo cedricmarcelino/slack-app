@@ -16,6 +16,7 @@ function Sidebar(props) {
     const [loading1,setLoading1] = useState() //renders 'fetching data' when data is not yet ready
     const [searchUser,setSearchUser] = useState("")//filters searchbar
     const [searchEmails, setSearchEmails] = useState([])//array where searchbar can look for emails
+    const [allUsersStored, setAllUsersStored] = useState([]) // array where all users from fetch are stored
     let usersInChannels = [] //array where user IDs of all members in user's channels are pushed
     let userEmailsInChannels = [] //array where user emails are pushed based on user IDs
 
@@ -124,12 +125,19 @@ function Sidebar(props) {
                     mode: "cors"})
                     .then(response=>response.json())
                     .then(channelDetails => 
-                        channelDetails.data.channel_members.map(member => 
-                            usersInChannels.includes(member.user_id) ? null : usersInChannels.push(member.user_id))) //filters duplicate IDs then stores one of each unique ID in array
+                        channelDetails.data.channel_members.map(member => {  //filters duplicate IDs then stores one of each unique ID in array
+                            if (usersInChannels.includes(member.user_id)) 
+                            { return null } 
+                            else {
+                                usersInChannels.push(member.user_id)
+                                let returnedArray = usersInChannels
+                                loadAllUsers(returnedArray)
+                            }
+                        }))
                     )
-        }).then(loadAllUsers())
+                })
         .then(() => {
-            if (userEmailsInChannels !== (undefined||null)) {
+            if (searchEmails !== (undefined||null)) {
                 setLoading1(false)
                 setNoUsersInList(false)}
             else {
@@ -142,45 +150,48 @@ function Sidebar(props) {
         })
     }
 
-    async function loadAllUsers (){ // fetches all users ID (to be used for cross reference)
-        await fetch("http://206.189.91.54/api/v1/users", 
+    async function loadAllUsers (returnedArray){ // fetches all users ID (to be used for cross reference)
+        await (fetch("http://206.189.91.54/api/v1/users", 
         {method: "GET",
         headers: userHeaders,
-        mode: "cors"})
+        mode: "cors"}))
         .then(response=>response.json())
         .then(allUsers=>{
-            allUsers.data.map(item=> usersInChannels.includes(item.id) ? 
-            userEmailsInChannels.push(item.email) : null
-        )})
-        .then(setSearchEmails(userEmailsInChannels))
+            const allUsersData = allUsers.data.map(item=>item)
+            setAllUsersStored(allUsersData)
+
+            allUsers.data.map(item=> returnedArray.includes(item.id) ? 
+            userEmailsInChannels.push(item.email) : null)
+        })
+        .then(()=>{
+            var uniq = [...new Set(userEmailsInChannels)] //replaces the duplicate values inside userEmailsInChannels
+            setSearchEmails(uniq)
+            })
     }
 
-        // shows list of user's DMs with other users
+    // loads loadUsersFromChannel() only once upon rendering of Sidebar
+    useEffect(loadUsersFromChannel,[])
 
-        function showUsersDirectMessages(){
-            if(usersDirectMessagesVisible===false){
-                loadUsersFromChannel()
-                setUsersDirectMessagesVisible(true)
-            } else {
-                setUsersDirectMessagesVisible(false)
-            }
+    // shows list of user's DMs with other users
+
+    function showUsersDirectMessages(){
+        if(usersDirectMessagesVisible===false){
+            setUsersDirectMessagesVisible(true)
+        } else {
+            setUsersDirectMessagesVisible(false)
         }
+    }
 
         
 
-        async function OpenDMWindow(e) {
-            const trgtMember = e.target.innerHTML
-            setRecipientName(trgtMember)
-            setActivePage("DirectMessage")
+    async function OpenDMWindow(e) {
+        const trgtMember = e.target.innerHTML
+        setRecipientName(trgtMember)
+        setActivePage("DirectMessage")
+        allUsersStored.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)
+        setShowMenu(false)
+    }
 
-            await fetch("http://206.189.91.54/api/v1/users", 
-            {method: "GET",
-            headers: userHeaders,
-            mode: "cors"})
-            .then(response=>response.json())
-            .then(allUsers=>{allUsers.data.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)})
-            setShowMenu(false)
-        }
 
     return (
         <div className={`bg-purple-900 text-white ${mobileView ? "w-full absolute" : "w-2/12"} ${mobileView && `${showMenu ? "block" : "hidden"}`} ${mobileView===false && "block"}`}>
@@ -241,8 +252,10 @@ function Sidebar(props) {
             }
             
             {(usersDirectMessagesVisible && noUsersInList===false && loading1===false)&& 
+
                 <ul className={`mx-10 ${mobileView && "text-center"}`}>
                     <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className={`w-1/2 text-black`}/>
+
                     {searchEmails.map((item, index)=> {
                         if (searchUser === '') {
                             return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
