@@ -1,7 +1,7 @@
 
 
 function Signup(props){
-  const {emailSignUpInput, passwordSignUpInput, confirmSignUpInput, signUpReminder, setSignUpReminder, setHomeState, emailLogInInput, passwordLogInput, setLogInReminder } = props
+  const {emailSignUpInput, passwordSignUpInput, confirmSignUpInput, signUpReminder, setSignUpReminder, setHomeState, emailLogInInput, passwordLogInput, setLogInReminder, logInVisiblity, setLogInVisibility, signUpVisibility, setSignUpVisibility } = props
 
 
   //RegisterUser function for when the sign up button is clicked
@@ -59,8 +59,13 @@ function Signup(props){
     }
   }
 
+  function signUpVisible() {
+    setSignUpVisibility("invisible")
+    setLogInVisibility("visible")
+  }
+
   return (
-  <div className="min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 absolute right-0 w-1/2 sm:invisible lg:visible">
+    <div className={`min-h-full absolute lg:items-center lg:justify-center py-12 px-4 sm:px-6 lg:px-8 lg:right-0 lg:w-1/2 lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:visible sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:translate-y-1/2 sm:${signUpVisibility}`}>
       <div className="max-w-md w-full space-y-8">
         <div>
           <img
@@ -134,6 +139,13 @@ function Signup(props){
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Sign up
+            </button>
+            <button
+            onClick={signUpVisible}
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-indigo-600 text-sm font-medium rounded-md text-indigo bg-white my-2 lg:invisible"
+            >
+              Log In
             </button>
           </div>
           

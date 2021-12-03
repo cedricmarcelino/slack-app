@@ -14,6 +14,8 @@ function Home(props){
   const emailSignUpInput = useRef("")
   const passwordSignUpInput = useRef("")
   const confirmSignUpInput = useRef("")
+  const [logInVisiblity, setLogInVisibility] = useState("visible")
+  const [signUpVisibility, setSignUpVisibility] = useState("invisible")
 
 
   //Set up for information to be displayed in the moving panel
@@ -58,7 +60,7 @@ function Home(props){
         <button
           onClick={onTransition}
             type="submit"
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
+            className="group relative w-1/2 flex justify-center m-auto my-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
         >
           {homeState.buttonText}
         </button>
@@ -71,6 +73,10 @@ function Home(props){
           passwordLogInput={passwordLogInput}
           logInReminder={logInReminder}
           setLogInReminder={setLogInReminder}
+          logInVisiblity = {logInVisiblity}
+          setLogInVisibility = {setLogInVisibility}
+          signUpVisibility = {signUpVisibility}
+          setSignUpVisibility = {setSignUpVisibility}
         />
         <Signup
           currentUser={currentUser}
@@ -84,6 +90,10 @@ function Home(props){
           emailLogInInput={emailLogInInput}
           passwordLogInput={passwordLogInput}
           setLogInReminder={setLogInReminder}
+          logInVisiblity = {logInVisiblity}
+          setLogInVisibility = {setLogInVisibility}
+          signUpVisibility = {signUpVisibility}
+          setSignUpVisibility = {setSignUpVisibility}
         />
     </div>
     )
