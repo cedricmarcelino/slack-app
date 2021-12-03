@@ -2,7 +2,7 @@ import {useState} from 'react'
 
 function AddChannel(props) {
 
-    const {userHeaders,userId,setValue,value} = props
+    const {userHeaders,userId,setValue,value,setAlertMessage,setAlertWindowVisible} = props
     const [channelName,setChannelName] = useState("")
 
     userHeaders[`Content-Type`] =  "application/json"
@@ -26,10 +26,12 @@ function AddChannel(props) {
             .then(response=>response.json())
             .then(data=>{
                 if(data.errors!==undefined){
-                    console.log(data.errors)
+                    setAlertMessage(data.errors[0])
+                    setAlertWindowVisible(true)
                 } else {
                     setChannelName("")
-                    console.log("Channel created!")
+                    setAlertMessage("Channel created!")
+                    setAlertWindowVisible(true)
                     setValue(value+1)
                 }
             })
@@ -39,7 +41,7 @@ function AddChannel(props) {
     }
 
     return (
-        <div className="text-center py-5">
+        <div className="text-center py-24">
             <h1 className="font-semibold text-3xl my-2">Create a new channel</h1>
             <fieldset>
                 <label className="my-2">Channel name: </label>

@@ -34,7 +34,7 @@ function Dashboard (props) {
                         <div className="flex flex-col h-screen">
                             <Header mobileView={true} showMenu={showMenu} setShowMenu={setShowMenu}/>
                             <div className="flex flex-grow">
-                                <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={true} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} showMenu={showMenu} setShowMenu={setShowMenu} setCurrentUser={setCurrentUser}/>
+                                <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={true} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} showMenu={showMenu} setShowMenu={setShowMenu} setCurrentUser={setCurrentUser} setShowMenu={setShowMenu}/>
                                 <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} showMenu={showMenu} mobileView={true} setShowMenu={setShowMenu}/>
                             </div>
                         </div> 
@@ -50,7 +50,7 @@ function Dashboard (props) {
                         <Header mobileView={false} showMenu={showMenu} setShowMenu={setShowMenu}/>
                         <div className="flex flex-grow">
                             <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} mobileView = {false} showMenu={showMenu} setShowMenu={setShowMenu}/>
-                            <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={false} setCurrentUser={setCurrentUser}/>
+                            <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={false} setCurrentUser={setCurrentUser} setShowMenu={setShowMenu}/>
                         </div>
                     </div> 
                 

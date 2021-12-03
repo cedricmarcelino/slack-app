@@ -1,7 +1,7 @@
 import {useState} from 'react'
 
 function AddMember(props) {
-    const {channelID,userHeaders} = props
+    const {channelID,userHeaders,setAlertMessage,setAlertWindowVisible} = props
     const [accountID,setAccountID] = useState("")
 
     async function addUser(body){
@@ -11,7 +11,21 @@ function AddMember(props) {
             mode:"cors",
             body: JSON.stringify(body)})
         .then(response=>response.json())
-        .then(data=>console.log(data))
+
+        .then(data=>{
+            if(typeof data.errors==="string"){
+                setAlertMessage(data.errors)
+                setAlertWindowVisible(true)
+            } else if (typeof data.errors==="object") {
+                setAlertMessage(data.errors[0])
+                setAlertWindowVisible(true)
+            } else if (data.errors===undefined) {
+                setAccountID("")
+                setAlertMessage("User added successfuly!")
+                setAlertWindowVisible(true)
+            }
+        })
+
         .catch((error) => {
             console.log(error)
         })
@@ -27,7 +41,6 @@ function AddMember(props) {
             "member_id": accountID
         }
         addUser(body)
-        setAccountID("")
     }
 
     return (
