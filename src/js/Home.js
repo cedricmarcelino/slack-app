@@ -51,8 +51,8 @@ function Home(props){
 
   if(Object.keys(currentUser).length === 0){
     return (
-    <div className = "border-8 absolute h-100 w-100">
-      <div className= {`h-44 w-50 border-8 absolute right-0 z-10 bg-gray-400 text-center h-full transform transition-all delay-200 ease-in-out duration-700 ${homeState.transitionClass}`} >
+    <div className = "border-8 absolute sm:w-full sm:full lg:h-100 lg:w-100 lg:top-1/2 lg:left-1/2 transform lg:-translate-x-1/2 lg:-translate-y-1/2">
+      <div className= {`h-44 w-50 border-8 absolute right-0 z-10 bg-gray-400 text-center h-full transform transition-all delay-200 ease-in-out duration-700 ${homeState.transitionClass} lg:visible sm:invisible`} >
         <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">{homeState.captionText}</h2>
 
         <button

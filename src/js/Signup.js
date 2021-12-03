@@ -60,7 +60,7 @@ function Signup(props){
   }
 
   return (
-  <div className="min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 absolute right-0 w-1/2">
+  <div className="min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 absolute right-0 w-1/2 sm:invisible lg:visible">
       <div className="max-w-md w-full space-y-8">
         <div>
           <img

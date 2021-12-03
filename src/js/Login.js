@@ -55,7 +55,7 @@ function Login(props){
 
 
   return (
-  <div className="min-h-full absolute items-center justify-center py-12 px-4 sm:px-6 lg:px-8 left-0 w-1/2">
+  <div className="min-h-full absolute lg:items-center lg:justify-center py-12 px-4 sm:px-6 lg:px-8 lg:left-0 lg:w-1/2 lg:top-0 lg:left-0 lg:translate-x-0 lg:translate-y-0 sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:translate-y-1/2">
       <div className="max-w-md w-full space-y-8">
         <div>
           <img
