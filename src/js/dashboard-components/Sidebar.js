@@ -254,19 +254,19 @@ function Sidebar(props) {
             }
             
             {(usersDirectMessagesVisible && noUsersInList===false && loading1===false)&& 
-
-                <ul className={`mx-10 ${mobileView && "text-center"} max-h-60 overflow-scroll no-scrollbar`}>
-                    <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className={`w-1/2 text-black`}/>
-
-                    {searchEmails.map((item, index)=> {
-                        if (searchUser === '') {
-                            return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
-                        }
-                        else if (item.toLowerCase().includes(searchUser.toLowerCase())) {
-                            return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
-                        }
-                    })}
-                </ul>
+                <div className="flex justify-start flex-col items-center">
+                    <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className={`w-1/2 text-black w-3/4 max-w-sm`}/>
+                    <ul className={`mx-10 ${mobileView && "text-center"} max-h-60 overflow-scroll no-scrollbar flex flex-col items-start`}>
+                        {searchEmails.map((item, index)=> {
+                            if (searchUser === '') {
+                                return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
+                            }
+                            else if (item.toLowerCase().includes(searchUser.toLowerCase())) {
+                                return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
+                            }
+                        })}
+                    </ul>
+                </div>
             }
 
             {(usersDirectMessagesVisible && noUsersInList===true && loading1===false)&& 
