@@ -65,7 +65,7 @@ function Signup(props){
   }
 
   return (
-    <div className={`min-h-full absolute lg:items-center lg:justify-center py-12 px-4 sm:px-6 lg:px-8 lg:right-0 lg:w-1/2 lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:visible sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:translate-y-1/2 sm:${signUpVisibility}`}>
+    <div className={`lg:min-h-full absolute lg:items-center lg:justify-center py-12 px-4 sm:px-6 lg:px-8 lg:right-0 lg:w-1/2 lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:visible  ${signUpVisibility} w-96 h-min border border-transparent`}>
       <div className="max-w-md w-full space-y-8">
         <div>
           <img

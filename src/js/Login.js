@@ -60,7 +60,7 @@ function Login(props){
 
 
   return (
-  <div className={`min-h-full absolute lg:items-center lg:justify-center py-12 px-4 sm:px-6 lg:px-8 lg:left-0 lg:w-1/2 lg:top-0 lg:left-0 lg:translate-x-0 lg:translate-y-0 lg:visible sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:translate-y-1/2 sm:${logInVisiblity}`}>
+  <div className={`lg:min-h-full absolute lg:items-center lg:justify-center py-12 px-4 sm:px-6 lg:px-8 lg:left-0 lg:w-1/2 lg:top-0 lg:left-0 lg:translate-x-0 lg:translate-y-0 lg:visible ${logInVisiblity} w-96 h-min border border-transparent m`}>
       <div className="max-w-md w-full space-y-8">
         <div>
           <img
