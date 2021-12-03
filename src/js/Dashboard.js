@@ -3,6 +3,7 @@ import Sidebar from "./dashboard-components/Sidebar"
 import {Redirect } from "react-router"
 import Maincontent from "./dashboard-components/Maincontent"
 import {useState} from "react"
+import Media from "react-media"
 
 function Dashboard (props) {
     const {currentUser, setCurrentUser} = props
@@ -17,18 +18,47 @@ function Dashboard (props) {
     const [recipientID, setRecipientID] = useState() //copy of channelID state for DM
     const [listOfMessages,setListOfMessages] = useState([])
     const [counter, setCounter] = useState(0)
+    const [showMenu,setShowMenu] = useState(false)
 
     if(Object.keys(currentUser).length === 0) {
         return <Redirect to="/"/>
     } else {
         return (
-            <div className="flex flex-col h-screen">
-                <Header currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-                <div className="flex flex-grow">
-                    <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter}/>
-                    <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter}/>
-                </div>
-            </div>
+            <>
+
+            
+
+            <Media query="(max-width: 1332px)">
+                {matches => (matches && 
+                    <>
+                        <div className="flex flex-col h-screen">
+                            <Header currentUser={currentUser} setCurrentUser={setCurrentUser} mobileView={true} setActivePage={setActivePage} showMenu={showMenu} setShowMenu={setShowMenu} activePage={activePage}/>
+                            <div className="flex flex-grow">
+                                <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={true} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} showMenu={showMenu} setShowMenu={setShowMenu}/>
+                                <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} showMenu={showMenu} mobileView={true} setShowMenu={setShowMenu}/>
+                            </div>
+                        </div> 
+                    </>
+
+                )}
+            </Media>
+
+            <Media query="(min-width: 1333px)">
+                {matches => (matches && 
+                
+                    <div className="flex flex-col h-screen">
+                        <Header currentUser={currentUser} setCurrentUser={setCurrentUser} mobileView={false} />
+                        <div className="flex flex-grow">
+                            <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} mobileView = {false} showMenu={showMenu} setShowMenu={setShowMenu}/>
+                            <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={false}/>
+                        </div>
+                    </div> 
+                
+                )}
+            </Media>
+
+            </>
+
         )
     }
 

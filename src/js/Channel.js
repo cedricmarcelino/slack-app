@@ -2,7 +2,7 @@ import {useEffect,useState} from 'react'
 
 function Channel(props) {
 
-    const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage, counter, setCounter} = props
+    const {channelName,channelID,listOfMessages,userHeaders,setListOfMessages,setActivePage, counter, setCounter, mobileView} = props
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
@@ -24,8 +24,7 @@ function Channel(props) {
             body: JSON.stringify(body)})
         .then(response=>response.json())
         .then(data=>{
-            setValue(value=>value+1)
-            console.log(data)})
+            setValue(value=>value+1)})
         .catch((error) => {
             console.log(error)
         })
@@ -66,7 +65,6 @@ function Channel(props) {
                 let tempListOfMessages = []
                 messagesData.forEach(message => {
                     tempListOfMessages.push(message)
-                    console.log(message)
                 })
                 setListOfMessages(tempListOfMessages)
 
@@ -85,7 +83,6 @@ function Channel(props) {
         // setListOfMessages([])
         // setLoading(true)
         retrieveMessages()
-        console.log("I RAN")
     },[channelName,value])
 
     useEffect(() => {
@@ -111,9 +108,9 @@ function Channel(props) {
                 <div className="text-center my-10"> Fetching Messages </div>
                 : 
                 listOfMessages.map((message) => 
-                <div className={message.sender.uid===userHeaders.uid ? "ml-auto mr-0 w-2/6" : "ml-0 mr-auto w-2/6"}>
-                    <div className={message.sender.uid===userHeaders.uid ? "m-3 font-semibold text-right" : "m-3 font-semibold"}>{message.sender.uid}</div>
-                    <div className={message.sender.uid===userHeaders.uid ? "border-solid rounded-md border-purple-300 border-2 text-lg p-4 m-3 bg-purple-700 text-white" : "bg-purple-800 border-solid rounded-md border-purple-300 border-2 text-lg p-4 m-3 text-white"}>
+                <div className={message.sender.uid===userHeaders.uid ? `ml-auto mr-0 ${mobileView ? "w-full" : "w-2/6" }` : `ml-0 mr-auto ${mobileView ? "w-full" : "w-2/6" }`}>
+                    <div className={message.sender.uid===userHeaders.uid ? "m-3 font-semibold text-right" : "m-3 font-semibold"}>{message.sender.uid===userHeaders.uid ? "You" :message.sender.uid}</div>
+                    <div className={message.sender.uid===userHeaders.uid ? "border-solid rounded-md border-purple-300 border-2 text-lg p-4 m-3 bg-purple-500 text-white" : "bg-purple-900 border-solid rounded-md border-purple-300 border-2 text-lg p-4 m-3 text-white"}>
                             <span>{message.body}</span>
                     </div>
                 </div>
