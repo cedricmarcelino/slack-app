@@ -1,4 +1,4 @@
-import {useEffect,useState} from 'react'
+import {useEffect,useRef,useState} from 'react'
 
 function Channel(props) {
 
@@ -97,18 +97,18 @@ function Channel(props) {
 
 
     return (
-        <div className="h-full flex flex-col justify-between">
+        <div className="h-full flex flex-col justify-between max-h-90%">
             <div className="border-solid border-purple-300 border-2 bg-white p-3 flex justify-between">
                 <span className={`font-bold ${mobileView ? "text-xl": "text-3xl"}`}>{channelName} #{channelID}</span>
                 <span className={`font-bold text-center ${mobileView ? "text-base": "text-xl"} cursor-pointer`} onClick={handleClick}>+ Add Member</span>
             </div>
 
-            <div className="p-4 h-full">
+            <div className="p-4 h-screen max-h-90 overflow-y-scroll">
                 {loading ? 
                 <div className="text-center my-10"> Fetching Messages </div>
                 : 
                 listOfMessages.map((message) => 
-                <div className={message.sender.uid===userHeaders.uid ? `ml-auto mr-0 ${mobileView ? "w-full" : "w-2/6" }` : `ml-0 mr-auto ${mobileView ? "w-full" : "w-2/6" }`}>
+                <div className={message.sender.uid===userHeaders.uid ? `ml-auto mr-0 ${mobileView ? "w-4/6" : "w-2/6" }` : `ml-0 mr-auto ${mobileView ? "w-4/6" : "w-2/6" }`}>
                     <div className={message.sender.uid===userHeaders.uid ? "m-3 font-semibold text-right" : "m-3 font-semibold"}>{message.sender.uid===userHeaders.uid ? "You" :message.sender.uid}</div>
                     <div className={message.sender.uid===userHeaders.uid ? "border-solid rounded-md border-purple-300 border-2 text-lg p-4 m-3 bg-purple-500 text-white" : "bg-purple-900 border-solid rounded-md border-purple-300 border-2 text-lg p-4 m-3 text-white"}>
                             <span>{message.body}</span>

@@ -91,12 +91,12 @@ function DirectMessage(props) {
 
 
     return (
-        <div className="h-full flex flex-col justify-between">
+        <div className="h-full flex flex-col justify-between max-h-screen">
             <div className="border-solid border-purple-300 border-2 bg-white p-3 flex justify-between">
                 <span className="font-bold text-3xl">{recipientName} #{recipientID}</span>
             </div>
 
-            <div className=" p-4">
+            <div className=" p-4 h-screen max-h-90 overflow-y-scroll">
                 {loading ? 
                 <div className="text-center my-10"> Fetching Messages </div>
                 : 
