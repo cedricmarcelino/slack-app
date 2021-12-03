@@ -3,7 +3,7 @@ import {useState,useEffect} from 'react'
 
 function Sidebar(props) {
 
-    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID, counter, setCounter,mobileView,showMenu,setShowMenu, counter2, setCounter2} = props
+    const {greetings,setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID, counter, setCounter,mobileView,showMenu,setShowMenu, counter2, setCounter2} = props
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
     const [usersDirectMessagesVisible, setUsersDirectMessagesVisible] = useState(false) //renders list of users
     const [addButtonVisible, setAddButtonVisible] = useState(false)
@@ -198,6 +198,8 @@ function Sidebar(props) {
     return (
         <div className={`bg-purple-900 text-white ${mobileView ? "w-full absolute" : "w-2/12"} ${mobileView && `${showMenu ? "block" : "hidden"}`} ${mobileView===false && "block"} max-h-90%" `}>
             
+            {mobileView && <span className="flex item-stretch justify-center font-semibold p-1 mt-4 mb-2">{greetings}</span>}
+
             <span className={`cursor-pointer flex item-stretch mx-4 font-semibold  ${mobileView ? "justify-center text-2xl p-1": "justify-left text-lg p-4 mt-4"}`} onClick={showWelcomePage}>Home</span>
             
             {(addButtonVisible===false&&!mobileView) &&
@@ -239,7 +241,7 @@ function Sidebar(props) {
 
             {
                 <>
-                    <div className={`cursor-pointer flex ${mobileView ? "justify-center text-2xl p-1 mb-1": "justify-left text-lg p-4"} mx-4 font-semibold`} > 
+                    <div className={`cursor-pointer flex ${mobileView ? "justify-center text-2xl p-1 mb-4": "justify-left text-lg p-4"} mx-4 font-semibold`} > 
                         <span onClick={showUsersDirectMessages}>Direct Messages{usersDirectMessagesVisible===false ? <span>▴</span> : <span>▾</span>}</span>
                     </div>
                 </>
@@ -256,7 +258,7 @@ function Sidebar(props) {
             {(usersDirectMessagesVisible && noUsersInList===false && loading1===false)&& 
                 <div className="flex justify-start flex-col items-center">
                     <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className={`w-1/2 text-black w-3/4 max-w-sm`}/>
-                    <ul className={`mx-10 ${mobileView && "text-center"} max-h-60 overflow-scroll no-scrollbar flex flex-col items-start`}>
+                    <ul className={`mx-10 ${mobileView && "text-center mb-4"} max-h-60 overflow-scroll no-scrollbar flex flex-col items-start`}>
                         {searchEmails.map((item, index)=> {
                             if (searchUser === '') {
                                 return <li onClick = {OpenDMWindow} key = {index}>{item}</li>
