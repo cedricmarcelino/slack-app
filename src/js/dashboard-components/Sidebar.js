@@ -3,7 +3,7 @@ import {useState,useEffect} from 'react'
 
 function Sidebar(props) {
 
-    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID, counter, setCounter} = props
+    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID, counter, setCounter,mobileView,showMenu,setShowMenu} = props
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
     const [usersDirectMessagesVisible, setUsersDirectMessagesVisible] = useState(false) //renders list of users
     const [addButtonVisible, setAddButtonVisible] = useState(false)
@@ -35,12 +35,10 @@ function Sidebar(props) {
                     data.name
                 )
                 setListOfChannels(userChannelsName)
-                console.log(userChannelsName)
                 let userChannelsID = userChannels.data.map(data => 
                     data.id
                 )
                 setListOfChannelID(userChannelsID)
-                console.log(userChannelsID)
                 
                 let i=0
                 let tempObjectChannel = {}
@@ -51,7 +49,6 @@ function Sidebar(props) {
                 })
 
                 setObjectChannel(tempObjectChannel)
-                console.log(tempObjectChannel)
 
                 setNoChannels(false)
                 setLoading(false)
@@ -69,7 +66,6 @@ function Sidebar(props) {
 
     useEffect( ()=>{
         retrieveUserChannels()
-        console.log("I RAN FROM SIDEBAR")
     },[value])
 
     function showUsersChannel(){
@@ -93,6 +89,7 @@ function Sidebar(props) {
 
     function showAddChannel(){
         setActivePage("AddChannel")
+        setShowMenu(false)
     }
 
     async function showChannel(e){
@@ -102,6 +99,12 @@ function Sidebar(props) {
         setChannelName(targetChannel)
         setChannelID(objectChannel[targetChannel])
         setCounter(counter+1)
+        setShowMenu(false)
+    }
+
+    function showWelcomePage(){
+        setActivePage("Welcome")
+        setShowMenu(false)
     }
 
     // direct message functions
@@ -136,8 +139,7 @@ function Sidebar(props) {
         .then(() => {
             if (searchEmails !== (undefined||null)) {
                 setLoading1(false)
-                setNoUsersInList(false)
-                console.log(searchEmails)}
+                setNoUsersInList(false)}
             else {
                 setLoading1(false)
                 setNoUsersInList(true)
@@ -181,25 +183,30 @@ function Sidebar(props) {
     }
 
         
+
     async function OpenDMWindow(e) {
         const trgtMember = e.target.innerHTML
         setRecipientName(trgtMember)
         setActivePage("DirectMessage")
         allUsersStored.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)
-        
+        setShowMenu(false)
     }
 
+
     return (
-        <div className="bg-purple-900 text-white w-2/12 p-5">
-            {addButtonVisible===false &&
+        <div className={`bg-purple-900 text-white ${mobileView ? "w-full absolute" : "w-2/12"} ${mobileView && `${showMenu ? "block" : "hidden"}`} ${mobileView===false && "block"}`}>
+            
+            <span className={`cursor-pointer flex item-stretch mx-4 font-semibold  ${mobileView ? "justify-center text-2xl p-1": "justify-left text-lg p-4 mt-4"}`} onClick={showWelcomePage}>Home</span>
+            
+            {(addButtonVisible===false&&!mobileView) &&
             <>
-                <span className="cursor-pointer flex item-stretch mx-4 my-3 font-semibold text-lg" onMouseEnter={showAddButton}>Channels{usersChannelVisible===false ? <span>▴</span> : <span>▾</span>}</span>
+                <span className={`cursor-pointer flex item-stretch mx-4 font-semibold ${mobileView ? "justify-center text-2xl p-1": "justify-left text-lg p-4"}`} onMouseEnter={showAddButton}>Channels{usersChannelVisible===false ? <span>▴</span> : <span>▾</span>}</span>
             </>
             }
 
-            {addButtonVisible &&
+            {(addButtonVisible || mobileView) &&
             <>
-                <div className="cursor-pointer flex justify-between mx-4 my-3 font-semibold text-lg" onMouseLeave={hideAddButton}> 
+                <div className={`cursor-pointer flex ${mobileView ? "justify-center text-2xl p-1": "justify-between text-lg p-4"} mx-4 font-semibold`} onMouseLeave={hideAddButton}> 
                     <span onClick={showUsersChannel}>Channels{usersChannelVisible===false ? <span>▴</span> : <span>▾</span>}</span>
                     <span onClick={showAddChannel}>+</span>
                 </div>
@@ -215,7 +222,7 @@ function Sidebar(props) {
             }
             
             {(usersChannelVisible && noChannels===false && loading===false)&& 
-                <ul className="mx-10">
+                <ul className={`mx-10 ${mobileView && "text-center text-xl"}`}>
                     {listOfChannels.map((channel,id) => <li key={id} className="cursor-pointer" onClick={showChannel}>{channel}</li>)}
                 </ul>
             }
@@ -230,7 +237,7 @@ function Sidebar(props) {
 
             {
                 <>
-                    <div className="cursor-pointer flex justify-between mx-4 my-3 font-semibold text-lg" > 
+                    <div className={`cursor-pointer flex ${mobileView ? "justify-center text-2xl p-1 mb-1": "justify-left text-lg p-4"} mx-4 font-semibold`} > 
                         <span onClick={showUsersDirectMessages}>Direct Messages{usersDirectMessagesVisible===false ? <span>▴</span> : <span>▾</span>}</span>
                     </div>
                 </>
@@ -245,9 +252,9 @@ function Sidebar(props) {
             }
             
             {(usersDirectMessagesVisible && noUsersInList===false && loading1===false)&& 
-                <ul className="mx-10">
 
-                    <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className="text-black"/>
+                <ul className={`mx-10 ${mobileView && "text-center"}`}>
+                    <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className={`w-1/2 text-black`}/>
 
                     {searchEmails.map((item, index)=> {
                         if (searchUser === '') {

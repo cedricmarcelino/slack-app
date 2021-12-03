@@ -2,7 +2,7 @@ import {useHistory } from 'react-router';
 
 
 function Login(props){
-  const {setCurrentUser, emailLogInInput, passwordLogInput, logInReminder, setLogInReminder} = props
+  const {setCurrentUser, emailLogInInput, passwordLogInput, logInReminder, setLogInReminder, logInVisiblity, setLogInVisibility, signUpVisibity, setSignUpVisibility } = props
   let history = useHistory()
 
 
@@ -53,9 +53,14 @@ function Login(props){
     }
   }
 
+  function logInvisible(){
+    setSignUpVisibility("visible")
+    setLogInVisibility("invisible")
+  }
+
 
   return (
-  <div className="min-h-full absolute items-center justify-center py-12 px-4 sm:px-6 lg:px-8 left-0 w-1/2">
+  <div className={`lg:min-h-full absolute lg:items-center lg:justify-center py-12 px-4 sm:px-6 lg:px-8 lg:left-0 lg:w-1/2 lg:top-0 lg:left-0 lg:translate-x-0 lg:translate-y-0 lg:visible ${logInVisiblity} w-96 h-min border border-transparent m`}>
       <div className="max-w-md w-full space-y-8">
         <div>
           <img
@@ -132,6 +137,14 @@ function Login(props){
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Log in
+            </button>
+
+            <button
+            onClick={logInvisible}
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-indigo-600 text-sm font-medium rounded-md text-indigo bg-white my-2 lg:invisible"
+            >
+              Sign up
             </button>
           </div>
         </form>
