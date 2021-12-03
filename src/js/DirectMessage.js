@@ -1,5 +1,4 @@
 import {useEffect,useState} from 'react'
-//page is being updated/needs to be updated
 function DirectMessage(props) { 
 
     const {recipientName,recipientID,listOfMessages,userHeaders,setListOfMessages} = props
