@@ -1,11 +1,11 @@
-import {useEffect,useState} from 'react'
+import {useEffect,useState, useRef} from 'react'
 function DirectMessage(props) { 
 
     const {recipientName,recipientID,listOfMessages,userHeaders,setListOfMessages, counter2, setCounter2} = props
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
-    
+    const endOfMessages2 = useRef(null)
     
     function handleChange(e){
         setMessage(e.target.value)
@@ -89,6 +89,13 @@ function DirectMessage(props) {
         };
       }, [counter2]);
 
+    const scrollToBottom = () => {
+        endOfMessages2.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(()=>{
+        scrollToBottom()
+    },[listOfMessages])
 
     return (
         <div className="h-full flex flex-col justify-between max-h-screen">
@@ -109,6 +116,7 @@ function DirectMessage(props) {
                 </div>
                 )
                 }
+                <div className="h-px w-px" ref={endOfMessages2}> </div>
             </div>
                 
 

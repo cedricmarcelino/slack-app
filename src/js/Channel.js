@@ -6,6 +6,7 @@ function Channel(props) {
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
+    const endOfMessages = useRef(null)
     
 
     function handleClick(){
@@ -95,6 +96,15 @@ function Channel(props) {
         };
       }, [counter]);
 
+    
+    const scrollToBottom = () => {
+        endOfMessages.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(()=>{
+        scrollToBottom()
+    },[listOfMessages])
+
 
     return (
         <div className="h-full flex flex-col justify-between max-h-90%">
@@ -116,6 +126,7 @@ function Channel(props) {
                 </div>
                 )
                 }
+                <div className="h-px w-px" ref={endOfMessages}> </div>
             </div>
                 
 
