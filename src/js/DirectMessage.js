@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react'
 function DirectMessage(props) { 
 
-    const {recipientName,recipientID,listOfMessages,userHeaders,setListOfMessages} = props
+    const {recipientName,recipientID,listOfMessages,userHeaders,setListOfMessages, counter2, setCounter2} = props
     const [message,setMessage] = useState("")
     const [value,setValue] = useState(0)
     const [loading,setLoading] = useState()
@@ -50,8 +50,6 @@ function DirectMessage(props) {
     }
 
     async function retrieveMessages(){
-        setListOfMessages([])
-        setLoading(true)
         await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${recipientID}&receiver_class=User`,
         {method: "GET",
         headers: userHeaders, 
@@ -80,6 +78,17 @@ function DirectMessage(props) {
         retrieveMessages()
         console.log("I RAN")
     },[recipientName,value])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCounter2(counter2 + 1)
+            retrieveMessages()
+        }, 5000);
+        return () => {
+          clearInterval(interval);
+        };
+      }, [counter2]);
+
 
     return (
         <div className="h-full flex flex-col justify-between">

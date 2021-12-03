@@ -18,6 +18,7 @@ function Dashboard (props) {
     const [recipientID, setRecipientID] = useState() //copy of channelID state for DM
     const [listOfMessages,setListOfMessages] = useState([])
     const [counter, setCounter] = useState(0)
+    const [counter2, setCounter2] = useState(0)
     const [showMenu,setShowMenu] = useState(false)
 
     if(Object.keys(currentUser).length === 0) {
@@ -34,8 +35,8 @@ function Dashboard (props) {
                         <div className="flex flex-col h-screen">
                             <Header mobileView={true} showMenu={showMenu} setShowMenu={setShowMenu}/>
                             <div className="flex flex-grow">
-                                <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={true} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} showMenu={showMenu} setShowMenu={setShowMenu} setCurrentUser={setCurrentUser}/>
-                                <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} showMenu={showMenu} mobileView={true} setShowMenu={setShowMenu}/>
+                                <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={true} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} showMenu={showMenu} setShowMenu={setShowMenu} setCurrentUser={setCurrentUser} counter2={counter2} setCounter2={setCounter2}/>
+                                <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} showMenu={showMenu} mobileView={true} setShowMenu={setShowMenu} counter2= {counter2} setCounter2={setCounter2}/>
                             </div>
                         </div> 
                     </>
@@ -49,8 +50,8 @@ function Dashboard (props) {
                     <div className="flex flex-col h-screen">
                         <Header mobileView={false} showMenu={showMenu} setShowMenu={setShowMenu}/>
                         <div className="flex flex-grow">
-                            <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} mobileView = {false} showMenu={showMenu} setShowMenu={setShowMenu}/>
-                            <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={false} setCurrentUser={setCurrentUser}/>
+                            <Sidebar userHeaders={userHeaders} setActivePage={setActivePage} value={value} setChannelName={setChannelName} setRecipientName={setRecipientName} setChannelID={setChannelID} setRecipientID={setRecipientID} setListOfMessages={setListOfMessages} counter = {counter} setCounter = {setCounter} mobileView = {false} showMenu={showMenu} setShowMenu={setShowMenu} counter2={counter2} setCounter2={setCounter2}/>
+                            <Maincontent activePage={activePage} userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} channelName={channelName} recipientName={recipientName} channelID={channelID} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} setActivePage={setActivePage} counter = {counter} setCounter = {setCounter} mobileView={false} setCurrentUser={setCurrentUser} counter2={counter2} setCounter2={setCounter2}/>
                         </div>
                     </div> 
                 

@@ -3,7 +3,7 @@ import {useState,useEffect} from 'react'
 
 function Sidebar(props) {
 
-    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID, counter, setCounter,mobileView,showMenu,setShowMenu} = props
+    const {setActivePage,userHeaders,value,setChannelName,setChannelID,setListOfMessages, setRecipientName, setRecipientID, counter, setCounter,mobileView,showMenu,setShowMenu, counter2, setCounter2} = props
     const [usersChannelVisible, setUsersChannelVisible] = useState(false)
     const [usersDirectMessagesVisible, setUsersDirectMessagesVisible] = useState(false) //renders list of users
     const [addButtonVisible, setAddButtonVisible] = useState(false)
@@ -188,8 +188,10 @@ function Sidebar(props) {
         const trgtMember = e.target.innerHTML
         setRecipientName(trgtMember)
         setActivePage("DirectMessage")
+        setListOfMessages([])
         allUsersStored.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)
         setShowMenu(false)
+        setCounter2(counter2+1)
     }
 
 
