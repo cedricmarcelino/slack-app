@@ -18,7 +18,7 @@ function Maincontent(props) {
             {activePage==="AddChannel" && <AddChannel userHeaders={userHeaders} userId={userId} setValue={setValue} value={value} setAlertMessage={setAlertMessage} setAlertWindowVisible={setAlertWindowVisible}/>}
             {activePage==="Channel" && <Channel channelName={channelName} channelID={channelID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} userHeaders={userHeaders} setActivePage={setActivePage} counter={counter} setCounter={setCounter} mobileView={mobileView}/>}
             {activePage==="AddMember" && <AddMember channelID={channelID} userHeaders={userHeaders} setAlertMessage={setAlertMessage} setAlertWindowVisible={setAlertWindowVisible}/>}
-            {activePage==="DirectMessage" && <DirectMessage recipientName={recipientName} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} userHeaders={userHeaders}/>}
+            {activePage==="DirectMessage" && <DirectMessage recipientName={recipientName} recipientID={recipientID} listOfMessages={listOfMessages} setListOfMessages={setListOfMessages} userHeaders={userHeaders} counter={counter2} setCounter2={setCounter2}/>}
             {activePage==="Welcome" && <Welcome userId={userId} setCurrentUser={setCurrentUser} mobileView={mobileView} setShowMenu={setShowMenu} setActivePage={setActivePage} counter2={counter2} setCounter2={setCounter2} />}
         </div>
     )
