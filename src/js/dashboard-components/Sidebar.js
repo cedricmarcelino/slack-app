@@ -196,7 +196,7 @@ function Sidebar(props) {
 
 
     return (
-        <div className={`bg-purple-900 text-white ${mobileView ? "w-full absolute" : "w-2/12"} ${mobileView && `${showMenu ? "block" : "hidden"}`} ${mobileView===false && "block"}`}>
+        <div className={`bg-purple-900 text-white ${mobileView ? "w-full absolute" : "w-2/12"} ${mobileView && `${showMenu ? "block" : "hidden"}`} ${mobileView===false && "block"} max-h-90%" `}>
             
             <span className={`cursor-pointer flex item-stretch mx-4 font-semibold  ${mobileView ? "justify-center text-2xl p-1": "justify-left text-lg p-4 mt-4"}`} onClick={showWelcomePage}>Home</span>
             
@@ -224,7 +224,7 @@ function Sidebar(props) {
             }
             
             {(usersChannelVisible && noChannels===false && loading===false)&& 
-                <ul className={`mx-10 ${mobileView && "text-center text-xl"}`}>
+                <ul className={`mx-10 ${mobileView && "text-center text-xl"} max-h-40 overflow-scroll no-scrollbar`}>
                     {listOfChannels.map((channel,id) => <li key={id} className="cursor-pointer" onClick={showChannel}>{channel}</li>)}
                 </ul>
             }
@@ -255,7 +255,7 @@ function Sidebar(props) {
             
             {(usersDirectMessagesVisible && noUsersInList===false && loading1===false)&& 
 
-                <ul className={`mx-10 ${mobileView && "text-center"}`}>
+                <ul className={`mx-10 ${mobileView && "text-center"} max-h-60 overflow-scroll no-scrollbar`}>
                     <input type="text" placeholder="Search..." onChange={event=>{setSearchUser(event.target.value)}} className={`w-1/2 text-black`}/>
 
                     {searchEmails.map((item, index)=> {
