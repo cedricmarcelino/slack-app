@@ -36,6 +36,19 @@ function DirectMessage(props) {
         setMessage("")
     }
 
+    function handleSentMessageEnterKey(e){
+        if (e.key === 'Enter') {
+        e.preventDefault()
+        const body={
+            "receiver_id": recipientID, // UserID
+            "receiver_class": "User",
+            "body": message
+        }
+        sendMessage(body)
+        setMessage("")
+        }
+    }
+
     async function retrieveMessages(){
         setListOfMessages([])
         setLoading(true)
@@ -91,7 +104,7 @@ function DirectMessage(props) {
                 
 
             <div className="p-4">
-                <textarea className="border-solid border-purple-300 border-2 resize-none w-full h-40 p-4" name="message" onChange={handleChange} value={message}></textarea>
+                <textarea className="border-solid border-purple-300 border-2 resize-none w-full h-40 p-4" name="message" onChange={handleChange} onKeyPress={handleSentMessageEnterKey} value={message}></textarea>
                 <button class="bg-purple-700 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onClick={handleSentMessage}>
                     Send Message
                 </button>

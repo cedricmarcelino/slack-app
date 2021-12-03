@@ -16,6 +16,7 @@ function Sidebar(props) {
     const [loading1,setLoading1] = useState() //renders 'fetching data' when data is not yet ready
     const [searchUser,setSearchUser] = useState("")//filters searchbar
     const [searchEmails, setSearchEmails] = useState([])//array where searchbar can look for emails
+    const [allUsersStored, setAllUsersStored] = useState([]) // array where all users from fetch are stored
     let usersInChannels = [] //array where user IDs of all members in user's channels are pushed
     let userEmailsInChannels = [] //array where user emails are pushed based on user IDs
 
@@ -154,9 +155,12 @@ function Sidebar(props) {
         mode: "cors"}))
         .then(response=>response.json())
         .then(allUsers=>{
-            allUsers.data.map(item=> returnedArray.includes(item.id) ? //replace usersInChannels with returned array
-            userEmailsInChannels.push(item.email) : null
-        )})
+            const allUsersData = allUsers.data.map(item=>item)
+            setAllUsersStored(allUsersData)
+
+            allUsers.data.map(item=> returnedArray.includes(item.id) ? 
+            userEmailsInChannels.push(item.email) : null)
+        })
         .then(()=>{
             var uniq = [...new Set(userEmailsInChannels)] //replaces the duplicate values inside userEmailsInChannels
             setSearchEmails(uniq)
@@ -164,14 +168,12 @@ function Sidebar(props) {
     }
 
     // loads loadUsersFromChannel() only once upon rendering of Sidebar
-    useEffect(loadUsersFromChannel,[]) 
+    useEffect(loadUsersFromChannel,[])
 
     // shows list of user's DMs with other users
 
     function showUsersDirectMessages(){
         if(usersDirectMessagesVisible===false){
-            // loadUsersFromChannel()
-            // loadAllUsers()
             setUsersDirectMessagesVisible(true)
         } else {
             setUsersDirectMessagesVisible(false)
@@ -181,16 +183,10 @@ function Sidebar(props) {
         
     async function OpenDMWindow(e) {
         const trgtMember = e.target.innerHTML
-        console.log (trgtMember)
         setRecipientName(trgtMember)
         setActivePage("DirectMessage")
-
-        await fetch("http://206.189.91.54/api/v1/users", 
-        {method: "GET",
-        headers: userHeaders,
-        mode: "cors"})
-        .then(response=>response.json())
-        .then(allUsers=>{allUsers.data.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)})
+        allUsersStored.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)
+        
     }
 
     return (
