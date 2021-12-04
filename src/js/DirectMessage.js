@@ -87,7 +87,7 @@ function DirectMessage(props) {
         return () => {
           clearInterval(interval);
         };
-      }, [counter2]);
+      }, [counter2, recipientID]);
 
     const scrollToBottom = () => {
         endOfMessages2.current?.scrollIntoView({ behavior: "smooth" })

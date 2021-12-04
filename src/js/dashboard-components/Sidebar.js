@@ -189,10 +189,10 @@ function Sidebar(props) {
         setRecipientName(trgtMember)
         setActivePage("DirectMessage")
         setListOfMessages([])
+        setCounter2(counter2+1)
         allUsersStored.map(item=> item.email === trgtMember ? setRecipientID(item.id) : null)
         setShowMenu(false)
-        setCounter2(counter2+1)
-    }
+     }
 
 
     return (
